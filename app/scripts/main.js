@@ -42,7 +42,7 @@ Horse = (function(superClass) {
 
   Horse.prototype.move = function() {
     console.log("Galloping...");
-    return Horse.__super__.move.call(this, 45);
+    return Horse.__super__.move.call(this, 47);
   };
 
   return Horse;
@@ -58,18 +58,56 @@ sam.move();
 tom.move();
 
 Twister = (function() {
-  Twister.col = ['yellow', 'green', 'red', 'blue'];
+  var getRand;
 
-  Twister.part = ['leg', 'hand'];
+  function Twister() {
+    this.col = ['yellow', 'green', 'red', 'blue'];
+    this.part = ['leg', 'hand'];
+    this.arrow = ['left', 'right'];
+    this.timer = {};
+    this.cur = {
+      col: this.col[0],
+      part: this.part[0],
+      arrow: this.arrow[0]
+    };
+  }
 
-  Twister.arrow = ['left', 'right'];
+  getRand = function(array) {
+    return array[parseInt(Math.random() * array.length)];
+  };
 
-  Twister.timer = {};
+  Twister.prototype.draw = function() {
+    $('body').css('background-color', this.cur.col);
+    return $('.info').text(this.cur.arrow + ' ' + this.cur.part);
+  };
 
-  function Twister() {}
+  Twister.prototype.change = function() {
+    this.cur.col = getRand(this.col);
+    this.cur.part = getRand(this.part);
+    this.cur.arrow = getRand(this.arrow);
+    this.draw();
+    return this.getCurrent();
+  };
 
-  Twister.start = function() {
-    return console.log('start');
+  Twister.prototype.start = function() {
+    var that;
+    that = this;
+    console.log('start -->');
+    return this.timer = setInterval((function() {
+      console.log('iter');
+      return that.change();
+    }), 3000);
+  };
+
+  Twister.prototype.stop = function() {};
+
+  Twister.prototype.pause = function() {};
+
+  Twister.prototype.restart = function() {};
+
+  Twister.prototype.getCurrent = function() {
+    console.log('col: ' + this.cur.col + ' part: ' + this.cur.part + ' arrow: ' + this.cur.arrow);
+    return this.cur;
   };
 
   return Twister;
@@ -77,3 +115,5 @@ Twister = (function() {
 })();
 
 twist = new Twister;
+
+twist.start();
