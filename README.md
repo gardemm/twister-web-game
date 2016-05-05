@@ -2,7 +2,7 @@
 
 Make **twister** web game for fun
 
-* 1.0.0 (beta)
+* 1.0.0
 
 ### How do I get set up? ###
 
